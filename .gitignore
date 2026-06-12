@@ -1,0 +1,34 @@
+# ===== Dependências / build =====
+# Frontend (React + Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/*.local
+
+# Backend (Spring Boot / Maven)
+backend/target/
+backend/.mvn/
+!backend/.mvn/wrapper/maven-wrapper.jar
+
+# ===== Variáveis de ambiente / segredos =====
+.env
+*.env
+!.env.example
+frontend/.env
+backend/src/main/resources/application-local.yml
+
+# ===== IDEs / Editores =====
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# ===== Sistema Operacional =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log
+logs/
+npm-debug.log*

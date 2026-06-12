@@ -1,0 +1,169 @@
+/* ============================================================================
+   FINANCAS - Design System
+   Visual limpo e profissional: sidebar escura, header branco e superficies claras.
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root {
+  /* ========================================================================
+     SUPERFÍCIES — escala branco/cinza
+     ======================================================================== */
+  --bg-app: #FFFFFF;              /* Conteudo branco */
+  --bg-content: #F8FAFC;          /* Areas internas e estados sutis */
+  --bg-surface: #FFFFFF;          /* Cards, modais e paineis */
+  --bg-header: #FFFFFF;           /* Header branco neve */
+  --bg-hover: #F1F5F9;            /* Hover claro */
+  --bg-active: #E8EEF5;
+
+  --bg-primary: var(--bg-app);
+  --bg-secondary: var(--bg-surface);
+  --bg-elevated: var(--bg-surface);
+
+  /* ========================================================================
+     SIDEBAR — azul corporativo escuro
+     ======================================================================== */
+  --bg-sidebar: #0B1220;
+  --sidebar-bg-hover: rgba(255, 255, 255, 0.07);
+  --sidebar-bg-active: rgba(255, 255, 255, 0.13);
+  --sidebar-text: #A7B1C2;
+  --sidebar-text-active: #FFFFFF;
+  --sidebar-text-muted: #6F7C90;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+
+  /* ========================================================================
+     BORDAS
+     ======================================================================== */
+  --border-subtle: #EEF2F6;
+  --border-default: #DDE4EE;
+  --border-strong: #C8D2DF;
+  --border-focus: #172033;
+
+  --glass-bg: var(--bg-surface);
+  --glass-bg-hover: var(--bg-hover);
+  --glass-border: var(--border-default);
+  --glass-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --glass-blur: none;
+
+  /* ========================================================================
+     TEXTO
+     ======================================================================== */
+  --text-primary: #172033;
+  --text-secondary: #536173;
+  --text-muted: #8A96A8;
+  --text-disabled: #B8C1CF;
+  --text-inverse: #FFFFFF;
+
+  /* ========================================================================
+     ACCENT — escuro sólido (botões primários)
+     ======================================================================== */
+  --accent-primary: #172033;
+  --accent-primary-hover: #243044;
+  --accent-primary-light: #536173;
+  --accent-glow: none;
+
+  --brand: #0B1220;
+  --brand-hover: #172033;
+  --brand-soft: #F8FAFC;
+
+  /* ========================================================================
+     VALORES MONETÁRIOS — só verde/vermelho (resto monocromático)
+     ======================================================================== */
+  --color-positive: #047857;      /* Verde sóbrio - emerald 700 */
+  --color-positive-light: #059669;
+  --color-positive-bg: #ECFDF5;
+  --color-positive-border: #A7F3D0;
+
+  --color-warning: #525252;       /* Neutro - não é mais amarelo */
+  --color-warning-light: #737373;
+  --color-warning-bg: #F5F5F5;
+  --color-warning-border: #E5E5E5;
+
+  --color-danger: #B91C1C;        /* Vermelho sóbrio - red 700 */
+  --color-danger-light: #DC2626;
+  --color-danger-bg: #FEF2F2;
+  --color-danger-border: #FECACA;
+
+  /* ========================================================================
+     CATEGORIAS — todas neutras (preto)
+     ======================================================================== */
+  --color-imovel: #111111;
+  --color-veiculo: #111111;
+  --color-emprestimo: #111111;
+  --color-consorcio: #111111;
+  --color-investimento: #047857;
+  --color-transacao: #111111;
+  --color-meta: #111111;
+  --color-casal: #111111;
+  --color-receita: #047857;
+  --color-despesa: #B91C1C;
+
+  /* ========================================================================
+     TIPOGRAFIA
+     ======================================================================== */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+  --font-size-xs: 0.75rem;        /* 12px */
+  --font-size-sm: 0.8125rem;      /* 13px */
+  --font-size-base: 0.875rem;     /* 14px */
+  --font-size-md: 0.9375rem;      /* 15px */
+  --font-size-lg: 1rem;           /* 16px */
+  --font-size-xl: 1.125rem;       /* 18px */
+  --font-size-2xl: 1.375rem;      /* 22px */
+  --font-size-3xl: 1.75rem;       /* 28px */
+  --font-size-4xl: 2.25rem;       /* 36px */
+
+  /* ========================================================================
+     ESPAÇAMENTO
+     ======================================================================== */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* ========================================================================
+     RAIO DE BORDA
+     ======================================================================== */
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 8px;
+  --border-radius-xl: 8px;
+  --border-radius-full: 999px;
+
+  /* ========================================================================
+     SOMBRAS
+     ======================================================================== */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.07);
+  --shadow-md: 0 8px 18px -12px rgba(15, 23, 42, 0.22);
+  --shadow-lg: 0 18px 32px -18px rgba(15, 23, 42, 0.28);
+
+  /* ========================================================================
+     LAYOUT
+     ======================================================================== */
+  --sidebar-width: 220px;
+  --sidebar-collapsed-width: 64px;
+  --header-height: 56px;
+  --bottom-nav-height: 60px;
+
+  /* ========================================================================
+     TRANSIÇÕES
+     ======================================================================== */
+  --transition-fast: 0.12s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+
+  /* ========================================================================
+     Z-INDEX
+     ======================================================================== */
+  --z-dropdown: 50;
+  --z-sticky: 60;
+  --z-fixed: 70;
+  --z-overlay: 80;
+  --z-modal: 90;
+  --z-popover: 100;
+  --z-tooltip: 110;
+}

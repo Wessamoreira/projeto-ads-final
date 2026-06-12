@@ -1,0 +1,744 @@
+/* ============================================================================
+   GLASS FINANCE - PrimeReact Overrides
+   Customização completa dos componentes PrimeReact para o tema Glass
+   ============================================================================ */
+
+/* ============================================================================
+   DATATABLE
+   ============================================================================ */
+.p-datatable {
+  background: transparent;
+}
+
+.p-datatable .p-datatable-header {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  color: var(--text-primary);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: var(--glass-bg);
+  color: var(--text-secondary);
+  border: none;
+  border-bottom: 1px solid var(--glass-border);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  background: transparent;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background var(--transition-fast);
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  border: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.p-datatable .p-datatable-footer {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  color: var(--text-secondary);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.p-datatable .p-paginator {
+  background: transparent;
+  border: none;
+  padding: var(--spacing-md) 0;
+}
+
+.p-datatable .p-paginator .p-paginator-element {
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-sm);
+  min-width: 36px;
+  height: 36px;
+}
+
+.p-datatable .p-paginator .p-paginator-element:hover {
+  background: var(--glass-bg-hover);
+  color: var(--text-primary);
+}
+
+.p-datatable .p-paginator .p-highlight {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+/* ============================================================================
+   INPUTS
+   ============================================================================ */
+.p-inputtext {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  border-radius: var(--border-radius-md);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-primary);
+  transition: all var(--transition-fast);
+}
+
+.p-inputtext:enabled:hover {
+  border-color: var(--accent-primary-light);
+}
+
+.p-inputtext:enabled:focus {
+  border-color: var(--accent-primary);
+  box-shadow: var(--accent-glow);
+  outline: none;
+}
+
+.p-inputtext::placeholder {
+  color: var(--text-muted);
+}
+
+.p-inputtext.p-invalid {
+  border-color: var(--color-danger);
+}
+
+.p-inputtext.p-invalid:enabled:focus {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+/* InputNumber */
+.p-inputnumber .p-inputtext {
+  font-family: var(--font-mono);
+}
+
+.p-inputnumber-button {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+}
+
+.p-inputnumber-button:hover {
+  background: var(--glass-bg-hover);
+  color: var(--text-primary);
+}
+
+/* ============================================================================
+   DROPDOWN
+   ============================================================================ */
+.p-dropdown {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  color: var(--text-primary);
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: var(--accent-primary-light);
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: var(--accent-primary);
+  box-shadow: var(--accent-glow);
+}
+
+.p-dropdown .p-dropdown-label {
+  color: var(--text-primary);
+}
+
+.p-dropdown .p-dropdown-trigger {
+  color: var(--text-secondary);
+}
+
+.p-dropdown-panel {
+  background: var(--bg-secondary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--glass-shadow);
+}
+
+.p-dropdown-panel .p-dropdown-items {
+  padding: var(--spacing-sm);
+}
+
+.p-dropdown-panel .p-dropdown-item {
+  color: var(--text-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  margin: 2px 0;
+}
+
+.p-dropdown-panel .p-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.p-dropdown-panel .p-dropdown-item.p-highlight {
+  background: var(--accent-primary);
+  color: white;
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+.p-button {
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  padding: 0.75rem 1.5rem;
+}
+
+.p-button.p-button-primary {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-hover));
+  border: none;
+  box-shadow: var(--accent-glow);
+}
+
+.p-button.p-button-primary:enabled:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+}
+
+.p-button.p-button-primary:enabled:active {
+  transform: translateY(0);
+}
+
+.p-button.p-button-secondary {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+
+.p-button.p-button-secondary:enabled:hover {
+  background: var(--glass-bg-hover);
+}
+
+.p-button.p-button-success {
+  background: linear-gradient(135deg, var(--color-positive), var(--color-positive-light));
+  border: none;
+}
+
+.p-button.p-button-warning {
+  background: linear-gradient(135deg, var(--color-warning), var(--color-warning-light));
+  border: none;
+}
+
+.p-button.p-button-danger {
+  background: linear-gradient(135deg, var(--color-danger), var(--color-danger-light));
+  border: none;
+}
+
+.p-button.p-button-text {
+  background: transparent;
+  border: none;
+  color: var(--accent-primary);
+}
+
+.p-button.p-button-text:enabled:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.p-button.p-button-outlined {
+  background: transparent;
+  border: 1px solid var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.p-button.p-button-outlined:enabled:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================================================
+   TOAST
+   ============================================================================ */
+.p-toast {
+  opacity: 1;
+}
+
+.p-toast .p-toast-message {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--glass-shadow);
+}
+
+.p-toast .p-toast-message-content {
+  padding: var(--spacing-md);
+}
+
+.p-toast .p-toast-message.p-toast-message-success {
+  background: var(--color-positive-bg);
+  border-left: 4px solid var(--color-positive);
+  color: var(--text-primary);
+}
+
+.p-toast .p-toast-message.p-toast-message-info {
+  background: rgba(59, 130, 246, 0.12);
+  border-left: 4px solid var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.p-toast .p-toast-message.p-toast-message-warn {
+  background: var(--color-warning-bg);
+  border-left: 4px solid var(--color-warning);
+  color: var(--text-primary);
+}
+
+.p-toast .p-toast-message.p-toast-message-error {
+  background: var(--color-danger-bg);
+  border-left: 4px solid var(--color-danger);
+  color: var(--text-primary);
+}
+
+.p-toast .p-toast-icon-close {
+  color: var(--text-secondary);
+}
+
+/* ============================================================================
+   PROGRESSBAR
+   ============================================================================ */
+.p-progressbar {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--border-radius-full);
+  height: 8px;
+  overflow: hidden;
+}
+
+.p-progressbar .p-progressbar-value {
+  border-radius: var(--border-radius-full);
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-primary-light));
+}
+
+/* ============================================================================
+   DIALOG / MODAL
+   ============================================================================ */
+.p-dialog {
+  background: var(--bg-secondary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--glass-shadow);
+}
+
+.p-dialog .p-dialog-header {
+  background: transparent;
+  border-bottom: 1px solid var(--glass-border);
+  padding: var(--spacing-lg);
+  color: var(--text-primary);
+}
+
+.p-dialog .p-dialog-content {
+  background: transparent;
+  padding: var(--spacing-lg);
+  color: var(--text-primary);
+}
+
+.p-dialog .p-dialog-footer {
+  background: transparent;
+  border-top: 1px solid var(--glass-border);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.p-dialog-mask {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ============================================================================
+   CARD (PrimeReact)
+   ============================================================================ */
+.p-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--glass-shadow);
+  color: var(--text-primary);
+}
+
+.p-card .p-card-header {
+  background: transparent;
+}
+
+.p-card .p-card-body {
+  padding: var(--spacing-lg);
+}
+
+.p-card .p-card-title {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.p-card .p-card-subtitle {
+  color: var(--text-secondary);
+}
+
+/* ============================================================================
+   TABS
+   ============================================================================ */
+.p-tabview .p-tabview-nav {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  color: var(--accent-primary);
+  border-bottom: 2px solid var(--accent-primary);
+}
+
+.p-tabview .p-tabview-panels {
+  background: transparent;
+  padding: var(--spacing-lg) 0;
+}
+
+/* ============================================================================
+   CALENDAR
+   ============================================================================ */
+.p-calendar .p-inputtext {
+  font-family: var(--font-primary);
+}
+
+.p-datepicker {
+  background: var(--bg-secondary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--glass-shadow);
+  color: var(--text-primary);
+}
+
+.p-datepicker .p-datepicker-header {
+  background: transparent;
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+
+.p-datepicker table td > span {
+  color: var(--text-primary);
+  border-radius: var(--border-radius-sm);
+}
+
+.p-datepicker table td > span:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.p-datepicker table td.p-datepicker-today > span {
+  background: var(--glass-bg);
+  border: 1px solid var(--accent-primary);
+}
+
+.p-datepicker table td > span.p-highlight {
+  background: var(--accent-primary);
+  color: white;
+}
+
+/* ============================================================================
+   CHECKBOX & RADIO
+   ============================================================================ */
+.p-checkbox .p-checkbox-box {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+}
+
+.p-checkbox .p-checkbox-box:hover {
+  border-color: var(--accent-primary-light);
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.p-radiobutton .p-radiobutton-box {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+}
+
+.p-radiobutton .p-radiobutton-box:hover {
+  border-color: var(--accent-primary-light);
+}
+
+.p-radiobutton .p-radiobutton-box.p-highlight {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+/* ============================================================================
+   INPUTSWITCH
+   ============================================================================ */
+.p-inputswitch .p-inputswitch-slider {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-full);
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: var(--accent-primary);
+}
+
+/* ============================================================================
+   TOOLTIP
+   ============================================================================ */
+.p-tooltip .p-tooltip-text {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+/* ============================================================================
+   CHART CONTAINER
+   ============================================================================ */
+.chart-glass-container {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+}
+
+/* ============================================================================
+   STEPS
+   ============================================================================ */
+.p-steps .p-steps-item .p-menuitem-link {
+  background: transparent;
+}
+
+.p-steps .p-steps-item .p-steps-number {
+  background: var(--glass-bg);
+  border: 2px solid var(--glass-border);
+  color: var(--text-secondary);
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+.p-steps .p-steps-item .p-steps-title {
+  color: var(--text-secondary);
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-title {
+  color: var(--accent-primary);
+}
+
+/* ============================================================================
+   TAG
+   ============================================================================ */
+.p-tag {
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.p-tag.p-tag-success {
+  background: var(--color-positive-bg);
+  color: var(--color-positive);
+}
+
+.p-tag.p-tag-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.p-tag.p-tag-danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.p-tag.p-tag-info {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent-primary);
+}
+
+/* ============================================================================
+   CONFIRM DIALOG
+   ============================================================================ */
+.p-confirm-dialog .p-dialog-content {
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.p-confirm-dialog .p-confirm-dialog-icon {
+  font-size: 2rem;
+}
+
+.p-confirm-dialog .p-confirm-dialog-message {
+  margin-left: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+/* ============================================================================
+   PROFESSIONAL CLEAN OVERRIDES
+   Remove residuos visuais do antigo glass/gradiente nos componentes PrimeReact.
+   ============================================================================ */
+.p-component,
+.p-component * {
+  letter-spacing: 0;
+}
+
+.p-inputtext,
+.p-inputtextarea,
+.p-dropdown,
+.p-inputnumber .p-inputtext,
+.p-calendar .p-inputtext {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+  border-radius: var(--border-radius-md);
+  box-shadow: none;
+}
+
+.p-inputtext:enabled:hover,
+.p-inputtextarea:enabled:hover,
+.p-dropdown:not(.p-disabled):hover {
+  border-color: var(--border-strong);
+}
+
+.p-inputtext:enabled:focus,
+.p-inputtextarea:enabled:focus,
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(23, 32, 51, 0.08);
+}
+
+.p-dropdown-panel,
+.p-datepicker,
+.p-dialog,
+.p-menu {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.p-dropdown-panel .p-dropdown-item:hover,
+.p-datepicker table td > span:hover {
+  background: var(--bg-hover);
+}
+
+.p-button {
+  box-shadow: none !important;
+  transform: none !important;
+  letter-spacing: 0;
+}
+
+.p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-link) {
+  background: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--text-inverse) !important;
+}
+
+.p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-link):enabled:hover {
+  background: var(--accent-primary-hover) !important;
+  border-color: var(--accent-primary-hover) !important;
+}
+
+.p-button.p-button-success:not(.p-button-text):not(.p-button-outlined) {
+  background: var(--color-positive) !important;
+  border-color: var(--color-positive) !important;
+}
+
+.p-button.p-button-danger:not(.p-button-text):not(.p-button-outlined) {
+  background: var(--color-danger) !important;
+  border-color: var(--color-danger) !important;
+}
+
+.p-button.p-button-warning:not(.p-button-text):not(.p-button-outlined) {
+  background: var(--color-warning) !important;
+  border-color: var(--color-warning) !important;
+}
+
+.p-button.p-button-text,
+.p-button.p-button-outlined {
+  background: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+.p-button.p-button-outlined {
+  border-color: var(--border-default) !important;
+}
+
+.p-button.p-button-text:enabled:hover,
+.p-button.p-button-outlined:enabled:hover {
+  background: var(--bg-hover) !important;
+  border-color: var(--border-strong) !important;
+}
+
+.p-progressbar {
+  background: var(--bg-content);
+  border-radius: var(--border-radius-full);
+}
+
+.p-progressbar .p-progressbar-value {
+  background: var(--accent-primary);
+}
+
+.p-datatable .p-datatable-header,
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-footer,
+.p-card,
+.chart-glass-container {
+  background: var(--bg-surface);
+  border-color: var(--border-default);
+  box-shadow: var(--shadow-xs);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background: var(--bg-hover);
+}
+
+.p-dialog-mask {
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.p-toast .p-toast-message {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
