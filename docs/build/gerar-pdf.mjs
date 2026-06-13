@@ -64,9 +64,8 @@ function capaHtml(titulo, subtitulo, documentos) {
     <h1 class="capa-titulo">${titulo}</h1>
     <div class="capa-sub">${subtitulo}</div>
     <div class="capa-box">
-      <strong>Integrantes do grupo:</strong><br/>
-      [ Preencher: Nome Completo — Matrícula ]<br/>
-      [ Preencher: Nome Completo — Matrícula ]
+      <strong>Integrante:</strong><br/>
+      Wesley Moreira dos Santos — RA 202312807
     </div>
     <div class="capa-rodape">
       Backend: Java 21 · Spring Boot · PostgreSQL &nbsp;|&nbsp; Frontend: React · TypeScript · Vite<br/>

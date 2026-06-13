@@ -51,54 +51,6 @@ flowchart LR
     classDef ator fill:#1e3a5f,stroke:#0d2538,color:#fff;
 ```
 
-## Diagrama (PlantUML — notação UML canônica)
-
-Use este bloco quando precisar gerar a imagem em notação UML formal (elipses e bonecos). Para renderizar, cole o conteúdo em [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/) ou use a extensão *PlantUML* do VS Code.
-
-```plantuml
-@startuml CasosDeUso
-left to right direction
-skinparam packageStyle rectangle
-skinparam actorStyle awesome
-
-actor "Visitante" as V
-actor "Usuário" as U
-actor "Agendador" as A << system >>
-
-U -|> V
-
-rectangle "Sistema de Controle Financeiro" {
-  usecase "Registrar conta"            as UC1
-  usecase "Fazer login"                as UC2
-  usecase "Visualizar perfil"          as UC3
-  usecase "Editar perfil / renda"      as UC4
-  usecase "Alterar senha"              as UC5
-  usecase "Gerenciar categorias"       as UC6
-  usecase "Gerenciar transações"       as UC7
-  usecase "Visualizar dashboard"       as UC8
-  usecase "Lançar renda do mês"        as UC9
-  usecase "Consultar status da renda"  as UC10
-}
-
-V --> UC1
-V --> UC2
-U --> UC3
-U --> UC4
-U --> UC5
-U --> UC6
-U --> UC7
-U --> UC8
-U --> UC9
-U --> UC10
-A --> UC9
-
-note bottom of UC9
-  Editar a renda no perfil (UC4)
-  dispara o lançamento (UC9).
-end note
-@enduml
-```
-
 ## Descrição dos casos de uso
 
 | # | Caso de uso | Pré-condição | Fluxo principal |
