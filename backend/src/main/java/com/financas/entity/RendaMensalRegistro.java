@@ -17,16 +17,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Registro de renda mensal processada automaticamente.
+ * Marca que a renda mensal de um usuario ja foi lancada num mes/ano.
+ * Serve para nao lancar o salario duas vezes no mesmo mes.
  *
- * <p>Controla se a renda mensal do usuario ja foi lancada como receita
- * em um determinado mes/ano. Evita duplicidade de lancamentos.</p>
- *
- * <p><b>Regra de negocio:</b> A renda e lancada automaticamente no 5o dia util
- * de cada mes, simulando o dia tipico de pagamento de salario.</p>
- *
- * @author Sistema Financas
- * @since 1.0
+ * @author Wesley Moreira dos Santos
  */
 @Entity
 @Table(
@@ -43,40 +37,27 @@ import java.time.LocalDate;
 @Builder
 public class RendaMensalRegistro extends BaseEntity {
 
-    /**
-     * Usuario dono deste registro de renda.
-     */
+    /** Dono do registro. */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    /**
-     * Ano do registro (ex: 2026).
-     */
     @Column(name = "ano", nullable = false)
     private Integer ano;
 
-    /**
-     * Mes do registro (1 a 12).
-     */
+    /** Mes de 1 a 12. */
     @Column(name = "mes", nullable = false)
     private Integer mes;
 
-    /**
-     * Valor da renda que foi lancada como receita.
-     */
+    /** Valor lancado como receita. */
     @Column(name = "valor_lancado", nullable = false, precision = 15, scale = 2)
     private BigDecimal valorLancado;
 
-    /**
-     * Data em que o lancamento foi realizado pelo sistema.
-     */
+    /** Data em que o sistema fez o lancamento. */
     @Column(name = "data_lancamento", nullable = false)
     private LocalDate dataLancamento;
 
-    /**
-     * Referencia a transacao criada (para rastreabilidade).
-     */
+    /** Transacao gerada (para rastrear). */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transacao_id")
     private Transacao transacao;

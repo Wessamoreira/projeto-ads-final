@@ -9,12 +9,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * DTO com o status do lancamento automatico de renda mensal.
+ * Status do lancamento automatico de renda (GET /api/renda-mensal/status).
  *
- * <p>Retornado pelo endpoint GET /api/renda-mensal/status</p>
- *
- * @author Sistema Financas
- * @since 1.0
+ * @author Wesley Moreira dos Santos
  */
 @Data
 @Builder

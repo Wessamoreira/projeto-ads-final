@@ -21,31 +21,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Job responsavel pelo lancamento automatico da renda mensal.
+ * Lancamento automatico da renda mensal.
  *
- * <h2>Regra de Negocio</h2>
- * <p>A renda mensal cadastrada no perfil do usuario e automaticamente
- * lancada como uma transacao de RECEITA no <b>5o dia util</b> de cada mes,
- * simulando o dia tipico de recebimento de salario.</p>
+ * <p>Todo dia as 06:00 a rotina verifica se hoje e o 5o dia util do mes. Se for,
+ * para cada usuario com renda configurada, lanca a renda como uma receita na
+ * categoria "Salario" - uma vez por mes, sem duplicar.</p>
  *
- * <h2>Funcionamento</h2>
- * <ol>
- *   <li>A rotina executa todos os dias as 06:00</li>
- *   <li>Verifica se hoje e o 5o dia util do mes</li>
- *   <li>Para cada usuario com renda mensal configurada:</li>
- *   <ul>
- *     <li>Verifica se ja foi lancada a renda deste mes</li>
- *     <li>Se nao, cria uma transacao de RECEITA</li>
- *     <li>Registra o lancamento para evitar duplicidade</li>
- *   </ul>
- * </ol>
- *
- * <h2>Categoria Utilizada</h2>
- * <p>O sistema busca ou cria automaticamente uma categoria chamada "Salario"
- * do tipo RECEITA para o usuario.</p>
- *
- * @author Sistema Financas
- * @since 1.0
+ * @author Wesley Moreira dos Santos
  */
 @Slf4j
 @Component
@@ -71,12 +53,7 @@ public class RendaMensalJobs {
         }
     }
 
-    /**
-     * Rotina agendada que executa todos os dias as 06:00.
-     *
-     * <p>Verifica se hoje e o 5o dia util do mes e, se for,
-     * processa o lancamento automatico da renda mensal.</p>
-     */
+    /** Roda todo dia as 06:00; so age no 5o dia util do mes. */
     @Scheduled(cron = "0 0 6 * * ?") // Todo dia as 06:00
     @Transactional
     public void processarRendaMensal() {
@@ -106,13 +83,7 @@ public class RendaMensalJobs {
                 lancamentos);
     }
 
-    /**
-     * Processa o lancamento da renda mensal para um usuario especifico.
-     *
-     * @param usuario Usuario a ser processado
-     * @param data    Data do lancamento
-     * @return resultado do processamento
-     */
+    /** Cria o lancamento do mes se ainda nao existe, ou atualiza se a renda mudou. */
     private ResultadoRendaMensal processarUsuario(Usuario usuario, LocalDate data) {
         int ano = data.getYear();
         int mes = data.getMonthValue();
@@ -206,12 +177,7 @@ public class RendaMensalJobs {
         return valorAtual.compareTo(novoValor) != 0;
     }
 
-    /**
-     * Busca a categoria "Salario" do usuario ou cria uma nova se nao existir.
-     *
-     * @param usuario Usuario dono da categoria
-     * @return Categoria encontrada ou criada
-     */
+    /** Reaproveita a categoria de Salario/renda do usuario; cria uma se nao houver. */
     private Categoria buscarOuCriarCategoriaSalario(Usuario usuario) {
         // Busca categorias de RECEITA do usuario
         List<Categoria> categorias = categoriaRepository
@@ -239,15 +205,7 @@ public class RendaMensalJobs {
         return categoriaRepository.save(nova);
     }
 
-    /**
-     * Verifica se a data informada e o 5o dia util do mes.
-     *
-     * <p>Considera como dias uteis: segunda a sexta-feira.
-     * Feriados nacionais NAO sao considerados nesta versao.</p>
-     *
-     * @param data Data a ser verificada
-     * @return true se for o 5o dia util do mes
-     */
+    /** Diz se a data e o 5o dia util do mes (dias uteis = seg a sex; sem feriados). */
     public boolean ehQuintoDiaUtil(LocalDate data) {
         LocalDate primeiroDia = data.withDayOfMonth(1);
         int diasUteis = 0;
@@ -266,24 +224,13 @@ public class RendaMensalJobs {
         return false;
     }
 
-    /**
-     * Verifica se a data e um dia util (segunda a sexta).
-     *
-     * @param data Data a verificar
-     * @return true se for dia util
-     */
+    /** Dia util = segunda a sexta. */
     private boolean ehDiaUtil(LocalDate data) {
         DayOfWeek dia = data.getDayOfWeek();
         return dia != DayOfWeek.SATURDAY && dia != DayOfWeek.SUNDAY;
     }
 
-    /**
-     * Calcula qual e o 5o dia util de um mes/ano.
-     *
-     * @param ano Ano
-     * @param mes Mes (1-12)
-     * @return Data do 5o dia util
-     */
+    /** Devolve a data do 5o dia util de um mes/ano. */
     public LocalDate calcularQuintoDiaUtil(int ano, int mes) {
         LocalDate data = LocalDate.of(ano, mes, 1);
         int diasUteis = 0;
@@ -300,12 +247,7 @@ public class RendaMensalJobs {
         return data;
     }
 
-    /**
-     * Retorna o nome do mes em portugues.
-     *
-     * @param mes Numero do mes (1-12)
-     * @return Nome do mes
-     */
+    /** Nome do mes em portugues, para a descricao da transacao. */
     private String getNomeMes(int mes) {
         return switch (mes) {
             case 1 -> "Janeiro";
@@ -324,15 +266,7 @@ public class RendaMensalJobs {
         };
     }
 
-    /**
-     * Metodo para executar manualmente o processamento (util para testes).
-     *
-     * <p>Pode ser chamado via endpoint administrativo para forcar
-     * o lancamento da renda em uma data especifica.</p>
-     *
-     * @param data Data para simular o processamento
-     * @return Numero de lancamentos realizados
-     */
+    /** Roda o processamento na mao para todos os usuarios (util em teste). */
     @Transactional
     public int executarManualmente(LocalDate data) {
         log.info("[RendaMensal] Execucao manual solicitada para data: {}", data);
@@ -349,14 +283,8 @@ public class RendaMensalJobs {
     }
 
     /**
-     * Executa o lancamento da renda mensal somente para um usuario.
-     *
-     * <p>Usado quando o usuario cria a conta, salva a renda no perfil ou clica
-     * no botao de forcar lancamento. O registro mensal impede duplicidade.</p>
-     *
-     * @param usuario Usuario a processar
-     * @param data Data para lancar a renda
-     * @return resultado do processamento
+     * Lanca a renda so para um usuario (no cadastro, ao salvar a renda no perfil
+     * ou pelo botao manual). O registro mensal impede duplicar.
      */
     @Transactional
     public ResultadoRendaMensal executarParaUsuario(Usuario usuario, LocalDate data) {

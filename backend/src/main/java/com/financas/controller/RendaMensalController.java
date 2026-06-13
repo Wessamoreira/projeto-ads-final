@@ -21,13 +21,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Controller para gerenciar e consultar lancamentos automaticos de renda mensal.
+ * Endpoints para consultar e disparar o lancamento automatico de renda mensal.
  *
- * <p>Permite ao usuario visualizar o status dos lancamentos automaticos
- * e, para fins de teste, executar o processamento manualmente.</p>
- *
- * @author Sistema Financas
- * @since 1.0
+ * @author Wesley Moreira dos Santos
  */
 @Tag(name = "Renda Mensal", description = "Gerenciamento do lancamento automatico de renda")
 @RestController
@@ -39,11 +35,7 @@ public class RendaMensalController {
     private final RendaMensalRegistroRepository registroRepository;
     private final UsuarioService usuarioService;
 
-    /**
-     * Retorna o status do lancamento automatico de renda do usuario logado.
-     *
-     * <p>Inclui informacoes sobre o proximo lancamento previsto e historico.</p>
-     */
+    /** Status da renda do usuario logado: se ja lancou no mes e qual a proxima data. */
     @Operation(summary = "Status da renda mensal",
                description = "Retorna informacoes sobre o lancamento automatico de renda do usuario")
     @GetMapping("/status")
@@ -86,15 +78,7 @@ public class RendaMensalController {
                 .build());
     }
 
-    /**
-     * Executa manualmente o lancamento da renda do usuario logado.
-     *
-     * <p>Usado pelo botao do perfil para atualizar o dashboard imediatamente
-     * quando a conta ou a renda mensal acabou de ser cadastrada.</p>
-     *
-     * @param data Data para simular o lancamento (opcional, default = hoje)
-     * @return Mensagem com o resultado do lancamento
-     */
+    /** Lanca a renda do usuario logado na hora (usado pelo botao do perfil). */
     @Operation(summary = "Executar lancamento manual",
                description = "Executa o lancamento da renda mensal do usuario logado")
     @PostMapping("/executar")
@@ -121,9 +105,7 @@ public class RendaMensalController {
                 "A renda mensal deste mes ja esta lancada no dashboard.");
     }
 
-    /**
-     * Retorna o historico de lancamentos automaticos do usuario.
-     */
+    /** Lista o historico de lancamentos automaticos do usuario. */
     @Operation(summary = "Historico de lancamentos",
                description = "Lista todos os lancamentos automaticos de renda do usuario")
     @GetMapping("/historico")
