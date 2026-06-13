@@ -136,7 +136,8 @@ montarHtml(
   [
     { arquivo: 'ARQUITETURA-E-SEGURANCA.md', titulo: 'Visão Geral e Roteiro de Defesa' },
     { arquivo: 'SEGURANCA-DETALHADA.md',     titulo: 'Segurança — Detalhamento Técnico' },
-    { arquivo: 'GUIA-BREAKPOINTS.md',        titulo: 'Guia de Breakpoints (Demonstração ao Vivo)' },
+    { arquivo: 'ROTEIRO-DEMO.md',            titulo: 'Roteiro de Demonstração (Postman + Breakpoints)' },
+    { arquivo: 'GUIA-BREAKPOINTS.md',        titulo: 'Guia de Breakpoints por Conceito' },
     { arquivo: 'TESTES-POSTMAN.md',          titulo: 'Testes da API (Postman / curl)' },
     { arquivo: 'TESTES-AUTOMATIZADOS.md',    titulo: 'Testes Automatizados (JUnit)' },
     { arquivo: 'ARQUITETURA-FRONTEND.md',    titulo: 'Arquitetura do Frontend' },
