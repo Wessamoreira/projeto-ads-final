@@ -1,0 +1,11 @@
+{
+  "name": "documentacao-build",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Geração do PDF único da documentação (não faz parte do sistema)",
+  "dependencies": {
+    "marked": "^12.0.0",
+    "mermaid": "^10.9.6"
+  }
+}

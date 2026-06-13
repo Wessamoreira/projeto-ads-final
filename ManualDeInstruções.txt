@@ -1,0 +1,159 @@
+==============================================================================
+  CONTROLE FINANCEIRO PESSOAL - MANUAL DE INSTRUCOES
+  Trabalho de Conclusao de Curso - Analise e Desenvolvimento de Sistemas
+==============================================================================
+
+Este manual explica, passo a passo, como preparar o ambiente de desenvolvimento
+e executar o sistema. O projeto tem duas partes:
+
+  - backend/   -> API REST (Java + Spring Boot)
+  - frontend/  -> Interface web (React + Vite)
+
+Para rodar o sistema completo, e preciso subir as duas partes e ter um banco
+PostgreSQL ativo.
+
+
+------------------------------------------------------------------------------
+1. PRE-REQUISITOS (instalar antes de comecar)
+------------------------------------------------------------------------------
+
+  [ ] Java JDK 21         -> verifique com:  java -version
+  [ ] Apache Maven 3.9+   -> verifique com:  mvn -version
+  [ ] Node.js 18+ e npm   -> verifique com:  node -v   e   npm -v
+  [ ] PostgreSQL 14+      -> verifique com:  psql --version
+  [ ] Git (opcional)      -> para clonar o repositorio
+
+Observacao: o JDK 21 e obrigatorio. Versoes anteriores do Java NAO compilam o
+projeto.
+
+
+------------------------------------------------------------------------------
+2. BANCO DE DADOS (PostgreSQL)
+------------------------------------------------------------------------------
+
+2.1) Crie um banco de dados chamado "financa_db".
+
+     No terminal:
+        createdb financa_db
+
+     Ou dentro do psql:
+        CREATE DATABASE financa_db;
+
+2.2) Ajuste as credenciais de acesso ao banco.
+
+     Abra o arquivo:
+        backend/src/main/resources/application.properties
+
+     Verifique/edite estas tres linhas para baterem com o SEU PostgreSQL:
+
+        spring.datasource.url=jdbc:postgresql://localhost:5432/financa_db
+        spring.datasource.username=SEU_USUARIO_POSTGRES
+        spring.datasource.password=SUA_SENHA_POSTGRES
+
+     IMPORTANTE: por padrao o arquivo vem com usuario "macbook" e senha "1234".
+     Troque pelos dados do seu ambiente (ex.: usuario "postgres").
+
+2.3) Nao e preciso criar tabelas manualmente. Na primeira execucao do backend,
+     o Hibernate cria todas as tabelas automaticamente (ddl-auto=update).
+
+
+------------------------------------------------------------------------------
+3. EXECUTAR O BACKEND (API)
+------------------------------------------------------------------------------
+
+3.1) Abra um terminal na pasta do backend:
+        cd backend
+
+3.2) Suba a aplicacao:
+        mvn spring-boot:run
+
+     (Na primeira vez o Maven baixa as dependencias; pode demorar alguns minutos.)
+
+3.3) A API estara disponivel em:
+        http://localhost:8080
+
+3.4) Documentacao interativa da API (Swagger):
+        http://localhost:8080/swagger-ui.html
+
+3.5) Para testar se esta no ar:
+        http://localhost:8080/api/health
+
+Deixe este terminal aberto (a API precisa continuar rodando).
+
+
+------------------------------------------------------------------------------
+4. EXECUTAR O FRONTEND (Interface Web)
+------------------------------------------------------------------------------
+
+4.1) Abra um SEGUNDO terminal na pasta do frontend:
+        cd frontend
+
+4.2) Instale as dependencias (apenas na primeira vez):
+        npm install
+
+4.3) Verifique o endereco da API no arquivo frontend/.env:
+        VITE_API_URL=http://localhost:8080
+     (Esse ja e o valor padrao; so altere se o backend estiver em outra porta.)
+
+4.4) Inicie a interface:
+        npm run dev
+
+4.5) A aplicacao web abrira em:
+        http://localhost:5173
+
+
+------------------------------------------------------------------------------
+5. ACESSAR O SISTEMA
+------------------------------------------------------------------------------
+
+5.1) No navegador, acesse:  http://localhost:5173
+
+5.2) NAO existe usuario pre-cadastrado. Clique em "Criar conta" / "Registro"
+     e cadastre um usuario informando:
+        - Nome
+        - E-mail
+        - Senha
+        - Renda mensal (opcional)
+
+5.3) Ao criar a conta, o sistema ja vem com categorias padrao e, se voce
+     informar a renda mensal, ja lanca a receita do mes no painel.
+
+5.4) Depois e so usar:
+        - Painel       -> resumo financeiro (saldo, graficos)
+        - Transacoes   -> lancar receitas e despesas
+        - Categorias   -> organizar os lancamentos
+        - Perfil       -> editar nome, renda e trocar senha
+
+
+------------------------------------------------------------------------------
+6. RESUMO RAPIDO (depois de tudo configurado)
+------------------------------------------------------------------------------
+
+  Terminal 1:   cd backend   &&  mvn spring-boot:run
+  Terminal 2:   cd frontend  &&  npm run dev
+  Navegador:    http://localhost:5173
+
+
+------------------------------------------------------------------------------
+7. PROBLEMAS COMUNS
+------------------------------------------------------------------------------
+
+  - "Connection refused" no backend:
+        O PostgreSQL nao esta rodando ou as credenciais em
+        application.properties estao erradas. Reveja o passo 2.
+
+  - Frontend abre mas nao loga / erro de rede:
+        Confirme que o backend esta no ar em http://localhost:8080
+        e que o arquivo frontend/.env aponta para essa URL.
+
+  - "npm: command not found" ou "mvn: command not found":
+        O pre-requisito correspondente nao foi instalado (passo 1).
+
+  - Porta 8080 ou 5173 ja em uso:
+        Feche o programa que esta usando a porta ou altere a porta
+        (server.port no backend / parametro --port no frontend).
+
+==============================================================================
+  Documentacao tecnica completa (diagramas, requisitos, arquitetura e
+  seguranca) na pasta "Documentacao" deste pacote (arquivo Documentacao.pdf).
+==============================================================================
