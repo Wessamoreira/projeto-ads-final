@@ -1,0 +1,213 @@
+{
+  "info": {
+    "name": "Controle Financeiro - TCC",
+    "description": "Coleção para testar a API do Controle Financeiro. Importe no Postman e rode na ordem: 1) Registrar OU Login (salva o token automaticamente) -> 2) demais requisições. O token é guardado na variável de coleção {{token}} por um script de teste.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "categoriaId", "value": "" },
+    { "key": "transacaoId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "0. Health (público)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/health", "host": ["{{baseUrl}}"], "path": ["api", "health"] }
+      }
+    },
+    {
+      "name": "1. Registrar (público)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201 || pm.response.code === 200) {",
+              "  const data = pm.response.json();",
+              "  pm.collectionVariables.set('token', data.accessToken);",
+              "  console.log('Token salvo:', data.accessToken);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Maria Teste\",\n  \"email\": \"maria@teste.com\",\n  \"senha\": \"123456\",\n  \"rendaMensal\": 3000.00\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/v1/auth/registro", "host": ["{{baseUrl}}"], "path": ["api", "v1", "auth", "registro"] }
+      }
+    },
+    {
+      "name": "2. Login (público)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 200', function () { pm.response.to.have.status(200); });",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('token', data.accessToken);",
+              "console.log('Token salvo:', data.accessToken);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"maria@teste.com\",\n  \"senha\": \"123456\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/v1/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "v1", "auth", "login"] }
+      }
+    },
+    {
+      "name": "3. Perfil do usuário (protegido)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{baseUrl}}/api/v1/usuarios/perfil", "host": ["{{baseUrl}}"], "path": ["api", "v1", "usuarios", "perfil"] }
+      }
+    },
+    {
+      "name": "4. Listar categorias (protegido)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const arr = pm.response.json();",
+              "if (Array.isArray(arr) && arr.length > 0) {",
+              "  pm.collectionVariables.set('categoriaId', arr[0].id);",
+              "  console.log('categoriaId salvo:', arr[0].id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{baseUrl}}/api/v1/categorias", "host": ["{{baseUrl}}"], "path": ["api", "v1", "categorias"] }
+      }
+    },
+    {
+      "name": "5. Criar categoria (protegido)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Educação\",\n  \"icone\": \"book\",\n  \"cor\": \"#2563EB\",\n  \"tipo\": \"DESPESA\",\n  \"orcamento\": 500.00,\n  \"descricao\": \"Cursos e livros\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/v1/categorias", "host": ["{{baseUrl}}"], "path": ["api", "v1", "categorias"] }
+      }
+    },
+    {
+      "name": "6. Criar transação / gasto (protegido)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  pm.collectionVariables.set('transacaoId', pm.response.json().id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tipo\": \"DESPESA\",\n  \"valor\": 89.90,\n  \"descricao\": \"Mercado\",\n  \"dataTransacao\": \"2026-06-12\",\n  \"categoriaId\": \"{{categoriaId}}\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/v1/transacoes", "host": ["{{baseUrl}}"], "path": ["api", "v1", "transacoes"] }
+      }
+    },
+    {
+      "name": "7. Listar transações (protegido, paginado)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/transacoes?page=0&size=20",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "transacoes"],
+          "query": [
+            { "key": "page", "value": "0" },
+            { "key": "size", "value": "20" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "8. Dashboard (protegido)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/dashboard?periodo=2026-06",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "dashboard"],
+          "query": [{ "key": "periodo", "value": "2026-06" }]
+        }
+      }
+    },
+    {
+      "name": "9. Atualizar perfil / renda (protegido)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Maria Teste\",\n  \"rendaMensal\": 3500.00\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/v1/usuarios/perfil", "host": ["{{baseUrl}}"], "path": ["api", "v1", "usuarios", "perfil"] }
+      }
+    },
+    {
+      "name": "10. SEM TOKEN (deve dar 401)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('bloqueado sem token (401)', function () { pm.response.to.have.status(401); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/v1/transacoes", "host": ["{{baseUrl}}"], "path": ["api", "v1", "transacoes"] }
+      }
+    }
+  ]
+}

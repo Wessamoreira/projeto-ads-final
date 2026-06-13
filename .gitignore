@@ -7,7 +7,8 @@ frontend/*.local
 
 # Pipeline de geração da documentação (mantém o script, ignora o resto)
 **/node_modules/
-docs/build/Documentacao.html
+docs/build/*.html
+docs/build/*.pdf
 docs/build/package-lock.json
 
 # Backend (Spring Boot / Maven)

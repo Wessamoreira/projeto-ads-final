@@ -1,6 +1,7 @@
 package com.financas.config;
 
 import com.financas.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,6 +56,12 @@ public class SecurityConfig {
                                 "/error"
                         ).permitAll()
                         .anyRequest().authenticated())
+                // Sem token / token invalido em rota protegida -> 401 (e nao o 403 padrao).
+                // Distingue "nao autenticado" (401) de "autenticado sem permissao" (403),
+                // como define o HTTP, e alinha com o tratamento de 401 no frontend.
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(
+                        (request, response, authException) ->
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Nao autorizado")))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

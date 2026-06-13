@@ -5,18 +5,9 @@ import { dirname, join } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const docsDir = join(__dirname, '..');
+const mermaidPath = join(__dirname, 'node_modules/mermaid/dist/mermaid.min.js');
 
-// Ordem dos documentos no PDF final
-const documentos = [
-  { arquivo: 'diagramas/00-requisitos.md',                titulo: 'Documento de Requisitos' },
-  { arquivo: 'diagramas/01-casos-de-uso.md',              titulo: 'Diagrama de Casos de Uso' },
-  { arquivo: 'diagramas/03-modelo-logico-relacional.md',  titulo: 'Modelo Lógico Relacional' },
-  { arquivo: 'diagramas/02-diagrama-de-classes.md',       titulo: 'Diagrama de Classes' },
-  { arquivo: 'diagramas/04-diagramas-de-sequencia.md',    titulo: 'Diagramas de Sequência' },
-  { arquivo: 'ARQUITETURA-E-SEGURANCA.md',                titulo: 'Arquitetura e Segurança' },
-  { arquivo: 'RENDA_MENSAL_AUTOMATICA.md',                titulo: 'Apêndice — Renda Mensal Automática' },
-];
-
+// ---------- Markdown -> HTML (com tratamento de blocos mermaid) ----------
 function escapeHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
@@ -30,56 +21,13 @@ renderer.code = function (codeArg, infoArg) {
     code = codeArg; lang = infoArg;
   }
   lang = (lang || '').trim().split(/\s+/)[0];
-  if (lang === 'mermaid') {
-    return `<pre class="mermaid">${escapeHtml(code)}</pre>`;
-  }
+  if (lang === 'mermaid') return `<pre class="mermaid">${escapeHtml(code)}</pre>`;
   return `<pre class="code"><code>${escapeHtml(code)}</code></pre>`;
 };
-
 marked.setOptions({ renderer, gfm: true, breaks: false });
 
-// Capa do documento
-const capa = `
-<section class="capa">
-  <div class="capa-topo">CENTRO UNIVERSITÁRIO — ANÁLISE E DESENVOLVIMENTO DE SISTEMAS</div>
-  <h1 class="capa-titulo">Controle Financeiro Pessoal</h1>
-  <div class="capa-sub">Documentação Técnica do Trabalho de Conclusão de Curso</div>
-  <div class="capa-box">
-    <strong>Integrantes do grupo:</strong><br/>
-    [ Preencher: Nome Completo — Matrícula ]<br/>
-    [ Preencher: Nome Completo — Matrícula ]
-  </div>
-  <div class="capa-rodape">
-    Backend: Java 21 · Spring Boot · PostgreSQL &nbsp;|&nbsp; Frontend: React · TypeScript · Vite<br/>
-    ${new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}
-  </div>
-</section>
-<section class="sumario">
-  <h2>Sumário</h2>
-  <ol>
-    ${documentos.map((d) => `<li>${d.titulo}</li>`).join('\n    ')}
-  </ol>
-</section>
-`;
-
-let corpo = '';
-for (const doc of documentos) {
-  let md;
-  try {
-    md = readFileSync(join(docsDir, doc.arquivo), 'utf8');
-  } catch (e) {
-    console.warn('Aviso: não encontrei', doc.arquivo, '— pulando.');
-    continue;
-  }
-  corpo += `<section class="doc">${marked.parse(md)}</section>`;
-}
-
-const html = `<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8"/>
-<title>Documentação — Controle Financeiro</title>
-<style>
+// ---------- Template ----------
+const CSS = `
   @page { size: A4; margin: 18mm 16mm; }
   * { box-sizing: border-box; }
   body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #1a202c; font-size: 11.5pt; line-height: 1.55; }
@@ -100,27 +48,98 @@ const html = `<!doctype html>
   .doc { page-break-before: always; }
   .capa { height: 247mm; display: flex; flex-direction: column; justify-content: center; text-align: center; page-break-after: always; }
   .capa-topo { letter-spacing: 1px; color: #64748b; font-size: 10pt; text-transform: uppercase; }
-  .capa-titulo { font-size: 30pt; border: none; margin: 18px 0 6px; }
+  .capa-titulo { font-size: 28pt; border: none; margin: 18px 0 6px; }
   .capa-sub { font-size: 13pt; color: #475569; margin-bottom: 40px; }
-  .capa-box { border: 1px solid #cbd5e0; border-radius: 8px; padding: 16px 20px; margin: 0 auto; max-width: 70%; background: #f8fafc; font-size: 11pt; }
+  .capa-box { border: 1px solid #cbd5e0; border-radius: 8px; padding: 16px 20px; margin: 0 auto; max-width: 72%; background: #f8fafc; font-size: 11pt; }
   .capa-rodape { margin-top: 50px; color: #64748b; font-size: 9.5pt; }
   .sumario { page-break-after: always; }
   .sumario ol { font-size: 12pt; line-height: 2; }
-</style>
-</head>
-<body>
-${capa}
+`;
+
+function capaHtml(titulo, subtitulo, documentos) {
+  const dataExtenso = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' });
+  return `
+  <section class="capa">
+    <div class="capa-topo">CENTRO UNIVERSITÁRIO — ANÁLISE E DESENVOLVIMENTO DE SISTEMAS</div>
+    <h1 class="capa-titulo">${titulo}</h1>
+    <div class="capa-sub">${subtitulo}</div>
+    <div class="capa-box">
+      <strong>Integrantes do grupo:</strong><br/>
+      [ Preencher: Nome Completo — Matrícula ]<br/>
+      [ Preencher: Nome Completo — Matrícula ]
+    </div>
+    <div class="capa-rodape">
+      Backend: Java 21 · Spring Boot · PostgreSQL &nbsp;|&nbsp; Frontend: React · TypeScript · Vite<br/>
+      ${dataExtenso}
+    </div>
+  </section>
+  <section class="sumario">
+    <h2>Sumário</h2>
+    <ol>${documentos.map((d) => `<li>${d.titulo}</li>`).join('')}</ol>
+  </section>`;
+}
+
+function montarHtml(titulo, subtitulo, documentos, outFile) {
+  let corpo = '';
+  for (const doc of documentos) {
+    let md;
+    try {
+      md = readFileSync(join(docsDir, doc.arquivo), 'utf8');
+    } catch {
+      console.warn('Aviso: não encontrei', doc.arquivo, '— pulando.');
+      continue;
+    }
+    corpo += `<section class="doc">${marked.parse(md)}</section>`;
+  }
+
+  const html = `<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"/><title>${titulo}</title>
+<style>${CSS}</style></head><body>
+${capaHtml(titulo, subtitulo, documentos)}
 ${corpo}
-<script src="file://${join(__dirname, 'node_modules/mermaid/dist/mermaid.min.js')}"></script>
+<script src="file://${mermaidPath}"></script>
 <script>
   mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose', flowchart: { htmlLabels: true } });
   window.addEventListener('load', function () {
     mermaid.run({ querySelector: 'pre.mermaid' }).then(function () { document.title = 'PRONTO'; });
   });
-</script>
-</body>
-</html>`;
+</script></body></html>`;
 
-const saida = join(__dirname, 'Documentacao.html');
-writeFileSync(saida, html, 'utf8');
-console.log('HTML gerado:', saida);
+  const saida = join(__dirname, outFile);
+  writeFileSync(saida, html, 'utf8');
+  console.log('HTML gerado:', saida);
+}
+
+// ---------- PDF 1: Documentação formal (entrega) ----------
+montarHtml(
+  'Controle Financeiro Pessoal',
+  'Documentação Técnica do Trabalho de Conclusão de Curso',
+  [
+    { arquivo: 'diagramas/00-requisitos.md',               titulo: 'Documento de Requisitos' },
+    { arquivo: 'diagramas/01-casos-de-uso.md',             titulo: 'Diagrama de Casos de Uso' },
+    { arquivo: 'diagramas/03-modelo-logico-relacional.md', titulo: 'Modelo Lógico Relacional' },
+    { arquivo: 'diagramas/02-diagrama-de-classes.md',      titulo: 'Diagrama de Classes' },
+    { arquivo: 'diagramas/04-diagramas-de-sequencia.md',   titulo: 'Diagramas de Sequência' },
+    { arquivo: 'ARQUITETURA-E-SEGURANCA.md',               titulo: 'Arquitetura e Segurança' },
+    { arquivo: 'SEGURANCA-DETALHADA.md',                   titulo: 'Segurança — Detalhamento Técnico' },
+    { arquivo: 'ARQUITETURA-FRONTEND.md',                  titulo: 'Arquitetura do Frontend' },
+    { arquivo: 'TESTES-AUTOMATIZADOS.md',                  titulo: 'Testes Automatizados' },
+    { arquivo: 'RENDA_MENSAL_AUTOMATICA.md',               titulo: 'Apêndice — Renda Mensal Automática' },
+  ],
+  'Documentacao.html'
+);
+
+// ---------- PDF 2: Guia de apresentação/defesa (uso pessoal) ----------
+montarHtml(
+  'Guia de Apresentação e Defesa',
+  'Roteiro técnico para a banca — segurança, breakpoints e testes',
+  [
+    { arquivo: 'ARQUITETURA-E-SEGURANCA.md', titulo: 'Visão Geral e Roteiro de Defesa' },
+    { arquivo: 'SEGURANCA-DETALHADA.md',     titulo: 'Segurança — Detalhamento Técnico' },
+    { arquivo: 'GUIA-BREAKPOINTS.md',        titulo: 'Guia de Breakpoints (Demonstração ao Vivo)' },
+    { arquivo: 'TESTES-POSTMAN.md',          titulo: 'Testes da API (Postman / curl)' },
+    { arquivo: 'TESTES-AUTOMATIZADOS.md',    titulo: 'Testes Automatizados (JUnit)' },
+    { arquivo: 'ARQUITETURA-FRONTEND.md',    titulo: 'Arquitetura do Frontend' },
+  ],
+  'Apresentacao.html'
+);
