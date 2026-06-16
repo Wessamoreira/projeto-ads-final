@@ -15,6 +15,7 @@ const Registro = lazy(() => import('./pages/Registro'))
 const Dashboard = lazy(() => import('./pages/Painel'))
 const Transacoes = lazy(() => import('./pages/Transacoes'))
 const Categorias = lazy(() => import('./pages/Categorias'))
+const Casal = lazy(() => import('./pages/Casal'))
 const Perfil = lazy(() => import('./pages/Perfil'))
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/transacoes" element={<Transacoes />} />
               <Route path="/categorias" element={<Categorias />} />
+              <Route path="/casal" element={<Casal />} />
               <Route path="/perfil" element={<Perfil />} />
             </Route>
           </Route>

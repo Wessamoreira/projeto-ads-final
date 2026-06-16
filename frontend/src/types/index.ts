@@ -76,6 +76,84 @@ export interface TransacaoRequest {
 }
 
 // ----------------------------------------------------------------------------
+// Casal (vinculo entre dois usuarios)
+// ----------------------------------------------------------------------------
+export type StatusVinculo = 'PENDENTE' | 'ATIVO' | 'DESVINCULADO'
+
+/** A outra pessoa do casal, do ponto de vista do usuario logado. */
+export interface Parceiro {
+  id: string
+  nome: string
+  email: string
+}
+
+export interface CasalVinculo {
+  id: string
+  status: StatusVinculo
+  parceiro: Parceiro | null
+  /** true se foi o usuario logado quem enviou o convite. */
+  euConvidei: boolean
+  vinculadoEm?: string
+  createdAt?: string
+}
+
+/** Situacao completa do casal, devolvida por GET /api/v1/casal/status. */
+export interface CasalStatus {
+  vinculoAtivo: CasalVinculo | null
+  convitePendenteEnviado: CasalVinculo | null
+  convitesRecebidos: CasalVinculo[]
+}
+
+export interface ConvidarParceiroRequest {
+  email: string
+}
+
+// ---- Visao financeira combinada do casal ----
+
+/** Quanto cada parceiro lancou no mes. */
+export interface PessoaResumo {
+  nome: string
+  receitas: number
+  despesas: number
+}
+
+/** Acerto para dividir as despesas do mes meio a meio. */
+export interface Divisao {
+  equilibrado: boolean
+  quemDeve: string | null
+  quemRecebe: string | null
+  valor: number
+}
+
+export interface CasalFinancas {
+  periodo: string
+  rendaCombinada: number
+  receitasMes: number
+  despesasMes: number
+  saldoMes: number
+  saldoTotal: number
+  gastosPorCategoria: GastoCategoria[]
+  porPessoa: PessoaResumo[]
+  divisao: Divisao
+}
+
+/** Objetivo (meta) compartilhado do casal. */
+export interface MetaCasal {
+  id: string
+  titulo: string
+  valorAlvo: number
+  valorAtual: number
+  percentual: number
+  concluida: boolean
+  createdAt?: string
+}
+
+export interface MetaCasalRequest {
+  titulo: string
+  valorAlvo: number
+}
+
+// ----------------------------------------------------------------------------
 // Dashboard
 // ----------------------------------------------------------------------------
 export interface GastoCategoria {

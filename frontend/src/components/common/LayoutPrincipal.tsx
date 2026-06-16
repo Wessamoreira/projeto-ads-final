@@ -21,6 +21,7 @@ const MainLayout = () => {
     { path: '/dashboard', icon: 'pi pi-th-large', label: 'Dashboard' },
     { path: '/transacoes', icon: 'pi pi-wallet', label: 'Transações' },
     { path: '/categorias', icon: 'pi pi-tags', label: 'Categorias' },
+    { path: '/casal', icon: 'pi pi-heart', label: 'Casal' },
   ]
 
   const firstName = user?.nome?.split(' ')[0] || 'Usuário'

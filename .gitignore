@@ -1,41 +1,19 @@
-# ===== Dependências / build =====
-# Frontend (React + Vite)
-frontend/node_modules/
-frontend/dist/
-frontend/.vite/
-frontend/*.local
-
-# Pipeline de geração da documentação (mantém o script, ignora o resto)
+# Dependencias
 **/node_modules/
-docs/build/*.html
-docs/build/*.pdf
-docs/build/package-lock.json
 
-# Backend (Spring Boot / Maven)
-backend/target/
-backend/.mvn/
-!backend/.mvn/wrapper/maven-wrapper.jar
+# Build / saida
+**/target/
+**/dist/
+*.class
 
-# ===== Variáveis de ambiente / segredos =====
-.env
-*.env
-!.env.example
-frontend/.env
-backend/src/main/resources/application-local.yml
+# Ambiente
+**/.env
+*.local
 
-# ===== IDEs / Editores =====
+# IDE
 .idea/
-.vscode/
 *.iml
-*.iws
-*.ipr
+.vscode/
 
-# ===== Sistema Operacional =====
+# Sistema
 .DS_Store
-Thumbs.db
-
-# ===== Logs =====
-*.log
-logs/
-npm-debug.log*
-docs/build/Documentacao.pdf
